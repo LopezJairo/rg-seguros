@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RG Seguros — Teléfonos útiles</title>
+<style>
+  :root{
+    --azul-oscuro:#152A45;
+    --azul-medio:#1D3A5F;
+    --celeste:#2582C5;
+    --celeste-suave:#EAF3FB;
+    --blanco:#FFFFFF;
+    --gris:#5B6B7C;
+    --borde:#E3E9F0;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--blanco);
+    color:var(--azul-oscuro);
+    line-height:1.4;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{
+    max-width:560px;
+    margin:0 auto;
+    padding:0 20px 56px;
+  }
+
+  header{
+    background:var(--azul-oscuro);
+    color:var(--blanco);
+    padding:32px 20px 28px;
+    margin-bottom:28px;
+    border-bottom:3px solid var(--celeste);
+  }
+
+  header .inner{
+    max-width:560px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+
+  header .logo{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--celeste);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+
+  h1{
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+
+  header p{
+    margin-top:6px;
+    color:#B9CBE0;
+    font-size:13px;
+  }
+
+  section{
+    margin-bottom:32px;
+  }
+
+  .section-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--azul-oscuro);
+    padding-bottom:10px;
+    margin-bottom:14px;
+    border-bottom:2px solid var(--borde);
+  }
+
+  .section-title .icon{
+    font-size:18px;
+  }
+
+  .card{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:10px;
+  }
+
+  .card-top{
+    margin-bottom:10px;
+  }
+
+  .nombre{
+    font-size:15px;
+    font-weight:600;
+    color:var(--azul-oscuro);
+  }
+
+  .linea-numero{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 0;
+    border-top:1px solid var(--borde);
+  }
+
+  .linea-numero:first-of-type{
+    border-top:none;
+    padding-top:0;
+  }
+
+  .numero-info{
+    display:flex;
+    flex-direction:column;
+  }
+
+  .numero{
+    font-size:15px;
+    font-weight:600;
+    color:var(--azul-medio);
+    font-variant-numeric:tabular-nums;
+  }
+
+  .etiqueta{
+    font-size:11px;
+    color:var(--gris);
+    margin-top:1px;
+  }
+
+  .btn{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    border:none;
+    cursor:pointer;
+    white-space:nowrap;
+    text-decoration:none;
+    transition:opacity .15s ease, transform .1s ease;
+  }
+
+  .btn:active{
+    transform:scale(0.96);
+  }
+
+  .btn-whatsapp{
+    background:var(--celeste-suave);
+    color:var(--azul-oscuro);
+    border:1px solid var(--celeste);
+  }
+
+  .btn-whatsapp:hover{
+    background:var(--celeste);
+    color:var(--blanco);
+  }
+
+  .btn-copiar{
+    background:var(--celeste-suave);
+    color:var(--azul-oscuro);
+    border:1px solid var(--celeste);
+  }
+
+  .btn-copiar:hover{
+    background:var(--celeste);
+    color:var(--blanco);
+  }
+
+  .btn-copiar.copiado{
+    background:var(--azul-oscuro);
+    border-color:var(--azul-oscuro);
+    color:var(--blanco);
+  }
+
+  footer{
+    text-align:center;
+    padding-top:20px;
+    font-size:12px;
+    color:var(--gris);
+  }
+
+  .toast{
+    position:fixed;
+    left:50%;
+    bottom:24px;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--azul-oscuro);
+    color:var(--blanco);
+    padding:10px 18px;
+    border-radius:24px;
+    font-size:13px;
+    font-weight:600;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    box-shadow:0 8px 24px rgba(21,42,69,0.25);
+  }
+
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+
+  @media (max-width:380px){
+    .linea-numero{flex-direction:column;align-items:flex-start;gap:8px;}
+    .btn{align-self:flex-end;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <img src="assets/logo.png" alt="RG Seguros" class="logo">
+    <div>
+      <div class="eyebrow">RG Seguros</div>
+      <h1>Teléfonos útiles</h1>
+      <p>Guardá esta página en el celu, la vas a necesitar en el momento justo.</p>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <div class="section-title"><span class="icon">🚛</span> Grúa</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="nombre">Rivadavia</div>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">0800-666-6789</span>
+          <span class="etiqueta">Línea gratuita</span>
+        </div>
+        <button class="btn btn-copiar" data-copy="0800-666-6789">📋 Copiar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="nombre">Federación Patronal</div>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">0800-800-0022</span>
+          <span class="etiqueta">Línea gratuita</span>
+        </div>
+        <button class="btn btn-copiar" data-copy="0800-800-0022">📋 Copiar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="nombre">Berkley</div>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">0800-555-0465</span>
+          <span class="etiqueta">Línea gratuita</span>
+        </div>
+        <button class="btn btn-copiar" data-copy="0800-555-0465">📋 Copiar</button>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">011-4378-8100</span>
+          <span class="etiqueta">Línea alternativa</span>
+        </div>
+        <button class="btn btn-copiar" data-copy="011-4378-8100">📋 Copiar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="nombre">Nación Seguros</div>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">0800-999-0123</span>
+          <span class="etiqueta">Línea gratuita</span>
+        </div>
+        <button class="btn btn-copiar" data-copy="0800-999-0123">📋 Copiar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="nombre">Sin grúa contratada con el seguro</div>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">2617-210540</span>
+        </div>
+        <a class="btn btn-whatsapp" href="https://wa.me/5492617210540" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title"><span class="icon">🤝</span> Productores</div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="nombre">Gustavo Rotellini</div>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">2616-438222</span>
+          <span class="etiqueta">Principal</span>
+        </div>
+        <a class="btn btn-whatsapp" href="https://wa.me/5492616438222" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">2617-471435</span>
+          <span class="etiqueta">Alternativo</span>
+        </div>
+        <a class="btn btn-whatsapp" href="https://wa.me/5492617471435" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="nombre">Florencia Gimenez</div>
+      </div>
+      <div class="linea-numero">
+        <div class="numero-info">
+          <span class="numero">2616-435780</span>
+        </div>
+        <a class="btn btn-whatsapp" href="https://wa.me/5492616435780" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>RG Seguros · Tenés esta info siempre a mano</footer>
+</div>
+
+<div class="toast" id="toast">Copiado ✓</div>
+
+<script>
+  const toast = document.getElementById('toast');
+  let toastTimer;
+
+  function mostrarToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> toast.classList.remove('show'), 1600);
+  }
+
+  document.querySelectorAll('.btn-copiar').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const numero = btn.getAttribute('data-copy');
+      try{
+        await navigator.clipboard.writeText(numero);
+      }catch(e){
+        const temp = document.createElement('textarea');
+        temp.value = numero;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+      const textoOriginal = btn.textContent;
+      btn.textContent = '✓ Copiado';
+      btn.classList.add('copiado');
+      mostrarToast('Número copiado: ' + numero);
+      setTimeout(()=>{
+        btn.textContent = textoOriginal;
+        btn.classList.remove('copiado');
+      }, 1600);
+    });
+  });
+</script>
+
+</body>
+</html>
